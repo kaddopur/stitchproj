@@ -1,0 +1,66 @@
+extends base
+
+block style
+  link(rel='stylesheet', href='css/index.css')
+
+block script
+  script(src='js/index.js')
+
+block content
+  .row
+    #ancestors.span4
+      .well story before
+      ul.thumbnails
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=p1', alt='hey')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=p2', alt='')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=p3', alt='')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=p4', alt='')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=p5', alt='')
+
+    #self.span5
+      .thumbnail
+        #myCarousel.carousel.slide
+          .carousel-inner
+            .item.active
+              img(src='http://placehold.it/500/fb5c5c/fff&text=self', alt='')
+              .carousel-caption
+                h4 self
+                p and that is a pencil
+            .item
+              img(src='http://placehold.it/500/fb5c5c/fff&text=bro1', alt='')
+              .carousel-caption
+                h4 bro1
+                p Yo! Homie! I'm his brother.
+            .item
+              img(src='http://placehold.it/500/fb5c5c/fff&text=bro2', alt='')
+              .carousel-caption
+                h4 bro2
+                p What's up! I'm his homie, too.
+          a.carousel-control.left(href='#myCarousel', data-slide='prev')&lsaquo;
+          a.carousel-control.right(href='#myCarousel', data-slide='next')&rsaquo;
+        
+    #children.span3
+      .well story after
+      ul.thumbnails
+        li#new.span1
+          .thumbnail
+            img(src='http://placehold.it/100/aaa/fff&text=new', alt='')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=c1', alt='')
+        li.span1
+          .thumbnail
+            img(src='http://placehold.it/100/fb5c5c/fff&text=c2', alt='')
+
+
+        
