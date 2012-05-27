@@ -106,8 +106,8 @@ class SingleNodeHandler(webapp2.RequestHandler):
 class InitHandler(webapp2.RequestHandler):
     def get(self):
         n = Node()
-        n.description = 'Start'
-        n.title = 'Father'
+        n.description = 'George'
+        n.title = 'Grandpa'
         n.flag_is_end = False
         n.parent_id = -1 #root
         n.node_id = 1
@@ -125,9 +125,40 @@ class ClearHandler(webapp2.RequestHandler):
         self.redirect('/init')
 
 
+class ContextHandler(webapp2.RequestHandler):
+    def get(self):
+        current_node = Node.all().filter('node_id =', int(self.request.get('node_id'))).get()
+        output = {}
+
+        # self
+        output['self'] = current_node.listAll()
+
+        # siblings
+        sibs = Node.all().filter('parent_id =', current_node.parent_id).filter('node_id !=', current_node.node_id).fetch(1000)
+        output['siblings'] = [n.listAll() for n in sibs]
+        
+        # ancestors
+        ancs = []
+        cur_parent_id = current_node.parent_id
+        while True:
+            if cur_parent_id == -1:
+                break
+            cur_parent = Node.all().filter('node_id =', cur_parent_id).get()
+            ancs.insert(0, cur_parent.listAll())
+            cur_parent_id = cur_parent.parent_id
+        output['ancestors'] = ancs
+
+        # children
+        chis = Node.all().filter('parent_id =', current_node.node_id).fetch(1000)
+        output['children'] = [n.listAll() for n in chis]
+
+        self.response.out.write(json.dumps(output))
+        
+
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/nodes', NodeHandler),
                                (r'/node/\d+', SingleNodeHandler),
                                ('/init', InitHandler),
-                               ('/clear', ClearHandler)],
+                               ('/clear', ClearHandler),
+                               ('/context', ContextHandler)],
                               debug=True)
