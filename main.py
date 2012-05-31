@@ -92,9 +92,9 @@ class NodeHandler(webapp2.RequestHandler):
         graph = self.request.get('graph')
         a = images.Image(self.request.get('graph'))
         if a.width > a.height:
-            graph = images.crop(graph, 0.0, 0.0, 1.0*a.height/a.width, 1.0)
+            graph = images.crop(graph, 0.5-0.5*a.height/a.width, 0.0, 0.5+0.5*a.height/a.width, 1.0)
         else:
-            graph = images.crop(graph, 0.0, 0.0, 1.0, 1.0*a.width/a.height)
+            graph = images.crop(graph, 0.0, 0.5-0.5*a.width/a.height, 1.0, 0.5+0.5*a.width/a.height)
         graph = images.resize(graph, 500, 500)
         n.graph = db.Blob(graph)
         n.put()
