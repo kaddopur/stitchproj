@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/index.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic">
@@ -50,15 +51,37 @@
             <div class="thumbnail"><img src="http://placehold.it/100/aaa/fff&amp;text=new" alt=""></div>-->
           </ul>
         </div>
-        <div id="upload" class="span4">
-          <div class="well">upload</div>
-          <form action="/nodes" enctype="multipart/form-data" method="post">
-            <input name="parent_id" placeholder="parent_id">
-            <input name="title" placeholder="title">
-            <input name="description" placeholder="description">
-            <input name="graph" type="file">
-            <input type="submit" value="Submit">
-          </form>
+        <div id="myModal" class="modal hide fade">
+          <div class="modal-header">
+            <button data-dismiss="modal" class="close">&times;</button>
+            <h3>Adding</h3>
+          </div>
+          <div class="modal-body">
+            <form action="/nodes" enctype="multipart/form-data" method="post" class="form-horizontal">
+              <input type="hidden" name="parent_id">
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label">Title</label>
+                  <div class="controls">
+                    <input type="text" name="title" value="" class="input-xlarge"><span class="help-inline"></span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Description (optional)</label>
+                  <div class="controls">
+                    <input type="text" name="description" value="" class="input-xlarge"><span class="help-inline"></span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Image</label>
+                  <div class="controls">
+                    <input type="file" name="graph" value="" class="input-xlarge"><span class="help-inline"></span>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer"><a id="close" class="btn">Close</a><a id="add" class="btn btn-primary">Add</a></div>
         </div>
       </div>
     </div>

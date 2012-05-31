@@ -5,6 +5,7 @@ block style
 
 block script
   script(src='js/index.js')
+  script(src='http://malsup.github.com/jquery.form.js')
 
 block content
   .row
@@ -34,12 +35,31 @@ block content
           .thumbnail
             img(src='http://placehold.it/100/aaa/fff&text=new', alt='')
 
-    #upload.span4
-      .well upload
-      form(action='/nodes', enctype='multipart/form-data', method='post')
-        input(name='parent_id', placeholder='parent_id')
-        input(name='title', placeholder='title')
-        input(name='description', placeholder='description')
-        input(name='graph', type='file')
-        input(type='submit', value='Submit')
+    #myModal.modal.hide.fade
+      .modal-header
+        button.close(data-dismiss='modal') &times;
+        h3 Adding
+      .modal-body
+        form.form-horizontal(action='/nodes', enctype='multipart/form-data', method='post')
+          input(type='hidden', name='parent_id')
+          fieldset
+            .control-group
+              label.control-label Title
+              .controls
+                input.input-xlarge(type='text', name='title', value='')
+                span.help-inline
+            .control-group
+              label.control-label Description (optional)
+              .controls
+                input.input-xlarge(type='text', name='description', value='')
+                span.help-inline
+            .control-group
+              label.control-label Image
+              .controls
+                input.input-xlarge(type='file', name='graph', value='')
+                span.help-inline
+      .modal-footer
+        a#close.btn Close
+        a#add.btn.btn-primary Add
+
 

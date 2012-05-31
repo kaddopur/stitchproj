@@ -88,12 +88,19 @@ class NodeHandler(webapp2.RequestHandler):
         n.node_id = n.obtainNewID()
         n.tree_level = parent_node.tree_level + 1
         n.tree_id = parent_node.tree_id
-        graph = images.resize(self.request.get('graph'), 500, 500)
+        
+        graph = self.request.get('graph')
+        a = images.Image(self.request.get('graph'))
+        if a.width > a.height:
+            graph = images.crop(graph, 0.0, 0.0, 1.0*a.height/a.width, 1.0)
+        else:
+            graph = images.crop(graph, 0.0, 0.0, 1.0, 1.0*a.width/a.height)
+        graph = images.resize(graph, 500, 500)
         n.graph = db.Blob(graph)
         n.put()
         n.graph_uri = '/img?img_id=' + str(n.key())
         n.put()
-        self.redirect('/node/' + str(n.node_id))
+        self.redirect('/context?node_id=%d' % n.node_id)
 
 
 class SingleNodeHandler(webapp2.RequestHandler):
@@ -124,11 +131,12 @@ class InitHandler(webapp2.RequestHandler):
         n.title = 'Grandpa'
         n.flag_is_end = False
         n.parent_id = -1 #root
+        n.graph_uri = 'http://i.imgur.com/CY5vG.jpg'
         n.node_id = 1
         n.tree_level = 1
         n.tree_id = 1
         n.put()
-        self.redirect('/nodes')
+        self.redirect('/')
 
 
 class ClearHandler(webapp2.RequestHandler):
@@ -136,7 +144,7 @@ class ClearHandler(webapp2.RequestHandler):
         nodes = Node().all().fetch(1000)
         for n in nodes:
             n.delete()
-        self.redirect('/')
+        self.redirect('/init')
 
 
 class ContextHandler(webapp2.RequestHandler):
