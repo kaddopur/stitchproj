@@ -26,10 +26,15 @@ setCarousel = function() {
     var caro_index;
     setChildren($('#myCarousel .active').index('#myCarousel .item'));
     caro_index = $('#myCarousel .active').index('#myCarousel .item') + 1;
+    console.log(window.carousel_length);
+    console.log(caro_index);
+    if (window.carousel_length === 1) return;
     switch (caro_index) {
       case 1:
-        return $('.carousel-control.left').hide();
+        $('.carousel-control.left').hide();
+        return $('.carousel-control.right').fadeIn(window.animation_dura);
       case window.carousel_length:
+        $('.carousel-control.left').fadeIn(window.animation_dura);
         return $('.carousel-control.right').hide();
       default:
         $('.carousel-control.left').fadeIn(window.animation_dura);

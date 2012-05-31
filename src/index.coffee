@@ -21,9 +21,18 @@ setCarousel = ->
   ).bind('slid', ->
     setChildren($('#myCarousel .active').index('#myCarousel .item'))
     caro_index = $('#myCarousel .active').index('#myCarousel .item') + 1
+    console.log window.carousel_length
+    console.log caro_index
+    if window.carousel_length == 1
+      return
+
     switch caro_index
-      when 1 then $('.carousel-control.left').hide()
-      when window.carousel_length then $('.carousel-control.right').hide()
+      when 1
+        $('.carousel-control.left').hide()
+        $('.carousel-control.right').fadeIn(window.animation_dura)
+      when window.carousel_length
+        $('.carousel-control.left').fadeIn(window.animation_dura)
+        $('.carousel-control.right').hide()
       else
         $('.carousel-control.left').fadeIn(window.animation_dura)
         $('.carousel-control.right').fadeIn(window.animation_dura)

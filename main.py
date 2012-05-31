@@ -98,16 +98,14 @@ class NodeHandler(webapp2.RequestHandler):
         graph = images.resize(graph, 500, 500)
         n.graph = db.Blob(graph)
         n.put()
-        n.graph_uri = '/img?img_id=' + str(n.key())
+        n.graph_uri = '/userimg/' + str(n.key())
         n.put()
         self.redirect('/context?node_id=%d' % n.node_id)
 
 
 class SingleNodeHandler(webapp2.RequestHandler):
-    def get(self):
-        req_node_id = int(self.request.url[self.request.url.rindex('/')+1:])
-        n = Node.all().filter('node_id =', req_node_id).get()
-
+    def get(self, req_node_id):
+        n = Node.all().filter('node_id =', int(req_node_id)).get()
         if n:
             self.response.out.write(json.dumps(n.listAll()))
         else:
@@ -115,8 +113,8 @@ class SingleNodeHandler(webapp2.RequestHandler):
 
 
 class ImageHandler(webapp2.RequestHandler):
-    def get(self):
-        n = db.get(self.request.get('img_id'))
+    def get(self, image_key):
+        n = db.get(image_key)
         if n.graph:
             self.response.headers['Content-Type'] = 'image/png'
             self.response.out.write(n.graph)
@@ -179,8 +177,8 @@ class ContextHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/nodes', NodeHandler),
-                               (r'/node/\d+', SingleNodeHandler),
-                               ('/img', ImageHandler),
+                               (r'/node/(\d+)', SingleNodeHandler),
+                               (r'/userimg/(.*)', ImageHandler),
                                ('/init', InitHandler),
                                ('/clear', ClearHandler),
                                ('/context', ContextHandler)],
