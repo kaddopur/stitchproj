@@ -37,7 +37,7 @@ setChildren = (index) ->
     # children
     $('#children ul').html("<li id='new' class='span1'><div class='thumbnail'><img src='http://placehold.it/100/aaa/fff&text=new'></div></li>")
     for child in node_context.children
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=#{child.title}'></div></li>").bind('click', do =>
+      $("<li class='span1'><div class='thumbnail'><img src='#{child.graph_uri}'></div></li>").bind('click', do =>
         tmp = child.node_id
         -> goto(tmp)
       ).appendTo('#children ul')
@@ -69,11 +69,11 @@ setItems = (data) ->
 
   # self & siblings
   $('#myCarousel .carousel-inner').fadeOut(window.animation_dura, =>
-    $('#myCarousel .carousel-inner').html("<div class='item active'><img src='http://placehold.it/500/fb5c5c/fff&text=#{node_context.self.title}'><div class='carousel-caption'><h4>#{node_context.self.title}</h4><p>#{node_context.self.description}</p></div></div>")
+    $('#myCarousel .carousel-inner').html("<div class='item active'><img src='#{node_context.self.graph_uri}'><div class='carousel-caption'><h4>#{node_context.self.title}</h4><p>#{node_context.self.description}</p></div></div>")
     window.carousel_members = [node_context.self.node_id]
 
     for sib in node_context.siblings
-      $('#myCarousel .carousel-inner').append("<div class='item'><img src='http://placehold.it/500/fb5c5c/fff&text=#{sib.title}'><div class='carousel-caption'><h4>#{sib.title}</h4><p>#{sib.description}</p></div></div>")
+      $('#myCarousel .carousel-inner').append("<div class='item'><img src='#{sib.graph_uri}'><div class='carousel-caption'><h4>#{sib.title}</h4><p>#{sib.description}</p></div></div>")
       window.carousel_members.push(sib.node_id)
     console.log window.carousel_members
     $('#myCarousel .carousel-inner').fadeIn(window.animation_dura)
@@ -83,7 +83,7 @@ setItems = (data) ->
   # ancestors
   $('#ancestors ul').html('').fadeOut(window.animation_dura, =>
     for anc in node_context.ancestors
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=#{anc.title}'></div></li>").bind('click', do =>
+      $("<li class='span1'><div class='thumbnail'><img src='#{anc.graph_uri}'></div></li>").bind('click', do =>
         tmp = anc.node_id
         -> goto(tmp)
       ).appendTo('#ancestors ul')
@@ -93,10 +93,10 @@ setItems = (data) ->
   # children
   $('#children ul').html("<li id='new' class='span1'><div class='thumbnail'><img src='http://placehold.it/100/aaa/fff&text=new'></div></li>").fadeOut(window.animation_dura, =>
     for child in node_context.children
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=#{child.title}'></div></li>").bind('click', do =>
+      $("<li class='span1'><div class='thumbnail'><img src='#{child.graph_uri}'></div></li>").appendTo('#children ul').bind('click', do =>
         tmp = child.node_id
         -> goto(tmp)
-      ).appendTo('#children ul')
+      )
     $('#children ul').fadeIn(window.animation_dura)
   )
 

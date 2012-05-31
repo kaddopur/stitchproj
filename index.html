@@ -50,6 +50,16 @@
             <div class="thumbnail"><img src="http://placehold.it/100/aaa/fff&amp;text=new" alt=""></div>-->
           </ul>
         </div>
+        <div id="upload" class="span4">
+          <div class="well">upload</div>
+          <form action="/nodes" enctype="multipart/form-data" method="post">
+            <input name="parent_id" placeholder="parent_id">
+            <input name="title" placeholder="title">
+            <input name="description" placeholder="description">
+            <input name="graph" type="file">
+            <input type="submit" value="Submit">
+          </form>
+        </div>
       </div>
     </div>
   </body>

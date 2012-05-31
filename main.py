@@ -21,6 +21,7 @@ import jinja2
 import os
 
 from google.appengine.ext import db
+from google.appengine.api import images
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -31,6 +32,7 @@ class Node(db.Model):
     node_id = db.IntegerProperty()
     parent_id = db.IntegerProperty()
     graph = db.BlobProperty()
+    graph_uri = db.StringProperty()
     title = db.StringProperty()
     description = db.StringProperty()
 
@@ -47,7 +49,7 @@ class Node(db.Model):
         out['tree_id'] = self.tree_id
         out['node_id'] = self.node_id
         out['parent_id'] = self.parent_id
-        out['graph'] = self.graph
+        out['graph_uri'] = self.graph_uri
         out['title'] = self.title
         out['description'] = self.description
         out['flag_is_end'] = self.flag_is_end
@@ -86,10 +88,12 @@ class NodeHandler(webapp2.RequestHandler):
         n.node_id = n.obtainNewID()
         n.tree_level = parent_node.tree_level + 1
         n.tree_id = parent_node.tree_id
+        graph = images.resize(self.request.get('graph'), 500, 500)
+        n.graph = db.Blob(graph)
+        n.put()
+        n.graph_uri = '/img?img_id=' + str(n.key())
         n.put()
         self.redirect('/node/' + str(n.node_id))
-
-
 
 
 class SingleNodeHandler(webapp2.RequestHandler):
@@ -101,6 +105,16 @@ class SingleNodeHandler(webapp2.RequestHandler):
             self.response.out.write(json.dumps(n.listAll()))
         else:
             self.response.out.write('not found')
+
+
+class ImageHandler(webapp2.RequestHandler):
+    def get(self):
+        n = db.get(self.request.get('img_id'))
+        if n.graph:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(n.graph)
+        else:
+            self.response.out.write('No mage')
 
 
 class InitHandler(webapp2.RequestHandler):
@@ -122,7 +136,7 @@ class ClearHandler(webapp2.RequestHandler):
         nodes = Node().all().fetch(1000)
         for n in nodes:
             n.delete()
-        self.redirect('/init')
+        self.redirect('/')
 
 
 class ContextHandler(webapp2.RequestHandler):
@@ -158,6 +172,7 @@ class ContextHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/nodes', NodeHandler),
                                (r'/node/\d+', SingleNodeHandler),
+                               ('/img', ImageHandler),
                                ('/init', InitHandler),
                                ('/clear', ClearHandler),
                                ('/context', ContextHandler)],

@@ -34,3 +34,12 @@ block content
           .thumbnail
             img(src='http://placehold.it/100/aaa/fff&text=new', alt='')
 
+    #upload.span4
+      .well upload
+      form(action='/nodes', enctype='multipart/form-data', method='post')
+        input(name='parent_id', placeholder='parent_id')
+        input(name='title', placeholder='title')
+        input(name='description', placeholder='description')
+        input(name='graph', type='file')
+        input(type='submit', value='Submit')
+

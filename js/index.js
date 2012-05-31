@@ -47,7 +47,7 @@ setChildren = function(index) {
     _ref = node_context.children;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       child = _ref[_i];
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=" + child.title + "'></div></li>").bind('click', (function() {
+      $("<li class='span1'><div class='thumbnail'><img src='" + child.graph_uri + "'></div></li>").bind('click', (function() {
         var tmp;
         tmp = child.node_id;
         return function() {
@@ -84,12 +84,12 @@ setItems = function(data) {
   $('.carousel-control.right').hide();
   $('#myCarousel .carousel-inner').fadeOut(window.animation_dura, function() {
     var sib, _i, _len, _ref;
-    $('#myCarousel .carousel-inner').html("<div class='item active'><img src='http://placehold.it/500/fb5c5c/fff&text=" + node_context.self.title + "'><div class='carousel-caption'><h4>" + node_context.self.title + "</h4><p>" + node_context.self.description + "</p></div></div>");
+    $('#myCarousel .carousel-inner').html("<div class='item active'><img src='" + node_context.self.graph_uri + "'><div class='carousel-caption'><h4>" + node_context.self.title + "</h4><p>" + node_context.self.description + "</p></div></div>");
     window.carousel_members = [node_context.self.node_id];
     _ref = node_context.siblings;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       sib = _ref[_i];
-      $('#myCarousel .carousel-inner').append("<div class='item'><img src='http://placehold.it/500/fb5c5c/fff&text=" + sib.title + "'><div class='carousel-caption'><h4>" + sib.title + "</h4><p>" + sib.description + "</p></div></div>");
+      $('#myCarousel .carousel-inner').append("<div class='item'><img src='" + sib.graph_uri + "'><div class='carousel-caption'><h4>" + sib.title + "</h4><p>" + sib.description + "</p></div></div>");
       window.carousel_members.push(sib.node_id);
     }
     console.log(window.carousel_members);
@@ -101,7 +101,7 @@ setItems = function(data) {
     _ref = node_context.ancestors;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       anc = _ref[_i];
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=" + anc.title + "'></div></li>").bind('click', (function() {
+      $("<li class='span1'><div class='thumbnail'><img src='" + anc.graph_uri + "'></div></li>").bind('click', (function() {
         var tmp;
         tmp = anc.node_id;
         return function() {
@@ -116,13 +116,13 @@ setItems = function(data) {
     _ref = node_context.children;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       child = _ref[_i];
-      $("<li class='span1'><div class='thumbnail'><img src='http://placehold.it/100/fb5c5c/fff&text=" + child.title + "'></div></li>").bind('click', (function() {
+      $("<li class='span1'><div class='thumbnail'><img src='" + child.graph_uri + "'></div></li>").appendTo('#children ul').bind('click', (function() {
         var tmp;
         tmp = child.node_id;
         return function() {
           return goto(tmp);
         };
-      })()).appendTo('#children ul');
+      })());
     }
     return $('#children ul').fadeIn(window.animation_dura);
   });
