@@ -146,9 +146,11 @@ $ ->
     console.log e
     switch e.keyCode
       when 37 #left
-        $('.carousel-control.left:visible').click()
+        if $('#myModal').is(":hidden")
+          $('.carousel-control.left:visible').click()
       when 39 #right
-        $('.carousel-control.right:visible').click()
+        if $('#myModal').is(":hidden")
+          $('.carousel-control.right:visible').click()
       when 78
         $('#myModal').modal('toggle')
   )

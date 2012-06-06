@@ -164,9 +164,15 @@ $(function() {
     console.log(e);
     switch (e.keyCode) {
       case 37:
-        return $('.carousel-control.left:visible').click();
+        if ($('#myModal').is(":hidden")) {
+          return $('.carousel-control.left:visible').click();
+        }
+        break;
       case 39:
-        return $('.carousel-control.right:visible').click();
+        if ($('#myModal').is(":hidden")) {
+          return $('.carousel-control.right:visible').click();
+        }
+        break;
       case 78:
         return $('#myModal').modal('toggle');
     }
