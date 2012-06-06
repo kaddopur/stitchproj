@@ -7,9 +7,9 @@ goto = (node_id) ->
     url: '/context?node_id=' + node_id
   }).done((data)->
     $('#myModal form>input').val(node_id)
-    console.log $('#myModal form>input')
     setItems(data)
     setNew(data)
+    setPath(node_id)
   )
 
 
@@ -21,8 +21,6 @@ setCarousel = ->
   ).bind('slid', ->
     setChildren($('#myCarousel .active').index('#myCarousel .item'))
     caro_index = $('#myCarousel .active').index('#myCarousel .item') + 1
-    console.log window.carousel_length
-    console.log caro_index
     if window.carousel_length == 1
       return
 
@@ -40,6 +38,7 @@ setCarousel = ->
   
 
 setChildren = (index) ->
+  # when slid
   $.ajax({
     url: '/context?node_id=' + window.carousel_members[index]
   }).done((data)->
@@ -47,6 +46,8 @@ setChildren = (index) ->
     $('#myModal form>input').val(window.carousel_members[index])
     # children
     $('#children ul').html("<li id='new' class='span1'><div class='thumbnail'><img src='http://placehold.it/100/aaa/fff&text=new'></div></li>")
+    setNew(data)
+    setPath(node_context.self.node_id)
     for child in node_context.children
       $("<li class='span1'><div class='thumbnail'><img src='#{child.graph_uri}'></div></li>").bind('click', do =>
         tmp = child.node_id
@@ -60,6 +61,9 @@ setNew = (data) ->
   $('#new').click =>
     $('#myModal').modal('show')
 
+setPath = (id) ->
+  $('#path').click =>
+    window.location.href = '/path/' + id
 
 setItems = (data) ->
   node_context = JSON.parse(data)
@@ -143,7 +147,6 @@ $ ->
   
   # hotkeys
   $(document).keydown((e) ->
-    console.log e
     switch e.keyCode
       when 37 #left
         if $('#myModal').is(":hidden")

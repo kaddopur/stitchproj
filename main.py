@@ -192,12 +192,16 @@ class RootHandler(webapp2.RequestHandler):
 
 class ViewHandler(webapp2.RequestHandler):
     def get(self, req_node_id):
-        n = Node.all().filter('node_id =', int(req_node_id)).get()
-        
         template_values = {}
         template = jinja_environment.get_template('index.html')
         self.response.out.write(template.render(template_values))
         
+
+class PathHandler(webapp2.RequestHandler):
+    def get(self, req_node_id):
+        template_values = {}
+        template = jinja_environment.get_template('path.html')
+        self.response.out.write(template.render(template_values))
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/nodes', NodeHandler),
@@ -206,5 +210,6 @@ app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/clear', ClearHandler),
                                ('/context', ContextHandler),
                                ('/roots', RootHandler),
-                               (r'/view/(\d+)', ViewHandler)],
+                               (r'/view/(\d+)', ViewHandler),
+                               (r'/path/(\d+)', PathHandler)],
                               debug=True)

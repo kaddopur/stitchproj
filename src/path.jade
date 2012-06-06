@@ -1,0 +1,23 @@
+extends base
+
+block style
+  link(rel='stylesheet', href='/css/path.css')
+  link(rel='image_src', type='image', href='http://placehold.it/130x110/fb5c5c/fff&text=Stitch')
+  
+block script
+  script(src='/js/path.js')
+
+block meta
+  meta(property='og:title', content='Stitch')
+  meta(property='og:description', content='Stitch photos with your friends.')
+  meta(property='og:image', content='http://placehold.it/130x110/fb5c5c/fff&text=Stitch')
+
+block content
+  .row
+    #fb.span1.offset11
+  #story.row
+    //.span2
+      h2 heading
+      .thumbnail
+        img(src='http://placehold.it/300/fb5c5c/fff?text=123')
+

@@ -1,4 +1,4 @@
-var goto, setCarousel, setChildren, setItems, setNew;
+var goto, setCarousel, setChildren, setItems, setNew, setPath;
 
 window.animation_dura = 500;
 
@@ -11,9 +11,9 @@ goto = function(node_id) {
     url: '/context?node_id=' + node_id
   }).done(function(data) {
     $('#myModal form>input').val(node_id);
-    console.log($('#myModal form>input'));
     setItems(data);
-    return setNew(data);
+    setNew(data);
+    return setPath(node_id);
   });
 };
 
@@ -26,8 +26,6 @@ setCarousel = function() {
     var caro_index;
     setChildren($('#myCarousel .active').index('#myCarousel .item'));
     caro_index = $('#myCarousel .active').index('#myCarousel .item') + 1;
-    console.log(window.carousel_length);
-    console.log(caro_index);
     if (window.carousel_length === 1) return;
     switch (caro_index) {
       case 1:
@@ -52,6 +50,8 @@ setChildren = function(index) {
     node_context = JSON.parse(data);
     $('#myModal form>input').val(window.carousel_members[index]);
     $('#children ul').html("<li id='new' class='span1'><div class='thumbnail'><img src='http://placehold.it/100/aaa/fff&text=new'></div></li>");
+    setNew(data);
+    setPath(node_context.self.node_id);
     _ref = node_context.children;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       child = _ref[_i];
@@ -71,6 +71,13 @@ setNew = function(data) {
   var _this = this;
   return $('#new').click(function() {
     return $('#myModal').modal('show');
+  });
+};
+
+setPath = function(id) {
+  var _this = this;
+  return $('#path').click(function() {
+    return window.location.href = '/path/' + id;
   });
 };
 
@@ -161,7 +168,6 @@ $(function() {
     if (flag) return $('#myModal form').submit();
   });
   $(document).keydown(function(e) {
-    console.log(e);
     switch (e.keyCode) {
       case 37:
         if ($('#myModal').is(":hidden")) {
