@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head lang="utf-8">
+    <title>Stitch</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/top.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/top.css">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a href="/"><img src="/img/logo-brand.png" class="brand"></a>
+          <ul class="nav">
+            <li class="active"><a href="/">Home</a></li>
+          </ul>
+          <form class="navbar-search pull-right">
+            <input type="input" placeholder="Search" class="search-query">
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-unit">
+        <h1>Stitch photos with your friends!</h1>
+        <p>Create interesting stories together. Let's try it.</p>
+        <p><a id="create" class="btn btn-primary btn-large">Create story &raquo;</a></p>
+      </div>
+      <div class="row">
+        <h1 id="other" class="span12">or see others' stories</h1>
+      </div>
+      <div id="roots" class="row"><!--.span2
+        <h2>heading</h2>
+        <div class="thumbnail"><img src="http://placehold.it/300/fb5c5c/fff?text=123"></div>-->
+      </div>
+      <div id="myModal" class="modal hide fade">
+        <div class="modal-header">
+          <button data-dismiss="modal" class="close">&times;</button>
+          <h3>Creating story</h3>
+        </div>
+        <div class="modal-body">
+          <form action="/nodes" enctype="multipart/form-data" method="post" class="form-horizontal">
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label">Title</label>
+                <div class="controls">
+                  <input type="text" name="title" value="" class="input-xlarge"><span class="help-inline"></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Description (optional)</label>
+                <div class="controls">
+                  <input type="text" name="description" value="" class="input-xlarge"><span class="help-inline"></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Image</label>
+                <div class="controls">
+                  <input type="file" name="graph" value="" class="input-xlarge"><span class="help-inline"></span>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="modal-footer"><a id="close" class="btn">Close</a><a id="add" class="btn btn-primary">Add</a></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -66,10 +66,11 @@ class Node(db.Model):
             n = Node.all().filter('node_id =', new_id).get()
         return new_id
 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        template = jinja_environment.get_template('index.html')
+        template = jinja_environment.get_template('top.html')
         self.response.out.write(template.render(template_values))
         
 
@@ -80,14 +81,22 @@ class NodeHandler(webapp2.RequestHandler):
 
     def post(self):
         n = Node()
-        parent_node = Node.all().filter('node_id =', int(self.request.get('parent_id'))).get()
+
         n.description = self.request.get('description')
         n.title = self.request.get('title')
         n.flag_is_end = self.request.get('flag_is_end') == 'true'
-        n.parent_id = parent_node.node_id
         n.node_id = n.obtainNewID()
-        n.tree_level = parent_node.tree_level + 1
-        n.tree_id = parent_node.tree_id
+
+        try:
+            parent_node = Node.all().filter('node_id =', int(self.request.get('parent_id'))).get() 
+        except ValueError:
+            n.parent_id = -1
+            n.tree_level = 1
+            n.tree_id = n.node_id
+        else:
+            n.parent_id = parent_node.node_id
+            n.tree_level = parent_node.tree_level + 1
+            n.tree_id = parent_node.tree_id
         
         graph = self.request.get('graph')
         a = images.Image(self.request.get('graph'))
@@ -142,7 +151,7 @@ class ClearHandler(webapp2.RequestHandler):
         nodes = Node().all().fetch(1000)
         for n in nodes:
             n.delete()
-        self.redirect('/init')
+        self.redirect('/')
 
 
 class ContextHandler(webapp2.RequestHandler):
@@ -173,13 +182,29 @@ class ContextHandler(webapp2.RequestHandler):
         output['children'] = [n.listAll() for n in chis]
 
         self.response.out.write(json.dumps(output))
+
+
+class RootHandler(webapp2.RequestHandler):
+    def get(self):
+        roots = Node.all().filter('parent_id =', -1).order('-date').fetch(1000)
+        self.response.out.write(json.dumps([r.listAll() for r in roots]))
+
+
+class ViewHandler(webapp2.RequestHandler):
+    def get(self, req_node_id):
+        n = Node.all().filter('node_id =', int(req_node_id)).get()
+        
+        template_values = {}
+        template = jinja_environment.get_template('index.html')
+        self.response.out.write(template.render(template_values))
         
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/nodes', NodeHandler),
                                (r'/node/(\d+)', SingleNodeHandler),
                                (r'/userimg/(.*)', ImageHandler),
-                               ('/init', InitHandler),
                                ('/clear', ClearHandler),
-                               ('/context', ContextHandler)],
+                               ('/context', ContextHandler),
+                               ('/roots', RootHandler),
+                               (r'/view/(\d+)', ViewHandler)],
                               debug=True)

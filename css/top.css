@@ -1,0 +1,6 @@
+.hero-unit {
+  background-image: url("/img/banner.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  color: #404040;
+}

@@ -160,5 +160,6 @@ $(function() {
     }
     if (flag) return $('#myModal form').submit();
   });
-  return goto(1);
+  console.log(/(\d+)$/.exec(window.location)[0]);
+  return goto(/(\d+)$/.exec(window.location)[0]);
 });

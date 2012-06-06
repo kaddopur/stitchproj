@@ -13,4 +13,10 @@ indexes:
 - kind: Node
   properties:
   - name: parent_id
+  - name: date
+    direction: desc
+
+- kind: Node
+  properties:
+  - name: parent_id
   - name: node_id

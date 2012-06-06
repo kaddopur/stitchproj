@@ -140,4 +140,6 @@ $ ->
     if flag
       $('#myModal form').submit()
   )
-  goto(1)
+
+  console.log /(\d+)$/.exec(window.location)[0]
+  goto(/(\d+)$/.exec(window.location)[0])

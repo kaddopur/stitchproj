@@ -1,0 +1,31 @@
+body {
+  font-family: 'Open Sans Condensed', sans-serif;
+  background: #ebebeb;
+}
+ul.nav {
+  top: 2px;
+}
+.navbar .nav .active > a {
+  color: #b3b3b3;
+  background: #fff;
+  -webkit-transition: all 0.2s linear;
+}
+.navbar .nav .active > a:hover {
+  color: #404040;
+  background: #fff;
+}
+.navbar-inner {
+  background: #fff;
+}
+.brand {
+  position: relative;
+  top: 2px;
+}
+body > .container {
+  padding-top: 60px;
+}
+.well {
+  font-size: 20px;
+  font-weight: 300;
+  color: #808080;
+}
