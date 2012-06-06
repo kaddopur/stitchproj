@@ -140,6 +140,17 @@ $ ->
     if flag
       $('#myModal form').submit()
   )
+  
+  # hotkeys
+  $(document).keydown((e) ->
+    console.log e
+    switch e.keyCode
+      when 37 #left
+        $('.carousel-control.left:visible').click()
+      when 39 #right
+        $('.carousel-control.right:visible').click()
+      when 78
+        $('#myModal').modal('toggle')
+  )
 
-  console.log /(\d+)$/.exec(window.location)[0]
   goto(/(\d+)$/.exec(window.location)[0])

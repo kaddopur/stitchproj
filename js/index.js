@@ -160,6 +160,16 @@ $(function() {
     }
     if (flag) return $('#myModal form').submit();
   });
-  console.log(/(\d+)$/.exec(window.location)[0]);
+  $(document).keydown(function(e) {
+    console.log(e);
+    switch (e.keyCode) {
+      case 37:
+        return $('.carousel-control.left:visible').click();
+      case 39:
+        return $('.carousel-control.right:visible').click();
+      case 78:
+        return $('#myModal').modal('toggle');
+    }
+  });
   return goto(/(\d+)$/.exec(window.location)[0]);
 });

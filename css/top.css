@@ -4,3 +4,6 @@
   background-position: right top;
   color: #404040;
 }
+#roots .span2 h2 {
+  overflow: hidden;
+}
